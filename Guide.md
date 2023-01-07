@@ -60,6 +60,21 @@ MONGODB_CONNECT=mongodb://localhost:27017/
 To connect with the MongoDB collection we just made, we'll need to first start off by parsing the .ENV file.
 To do this, we use `"dotenv"` which is a module that loads environments variables from a `.env` file.
 
+The code to read the `.env` file will look as such:
+
+``` JS
+require('dotenv').config()
+
+const mdb = process.env.MONGODB_CONNECT as string;=
+
+```
+
+Here we can see that the string `mdb` holds the value that allows us to connect to our MongoDB database. We can view the value here using:
+
+``` JS
+console.log(mdb)
+```
+
 ``` shell
 npm install @types/mongoose --save
 ```
