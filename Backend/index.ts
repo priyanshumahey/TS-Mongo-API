@@ -2,12 +2,8 @@ require('dotenv').config()
 
 const mdb = process.env.MONGODB_CONNECT as string;
 
-// console.log(mdb)
-
 import mongoose from 'mongoose';
-
-
-// const db = mongoose.connect(mdb);
+import express from "express";
 
 interface IUser {
     first: String,
@@ -27,10 +23,17 @@ const newSchema = new mongoose.Schema<IUser> ({
 
 const User = mongoose.model<IUser>('Primary', newSchema, 'Primary')
 
-run().catch(err => console.log(err));
+
+
+mongoose.set("strictQuery", false);
+mongoose.connect(mdb)
+
+
+const db = mongoose.connection;
+
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 async function run() {
-    // 4. Connect to MongoDB
     await mongoose.connect(mdb);
   
     const user = new User({
@@ -44,7 +47,7 @@ async function run() {
     console.log(user.first);
 }
 
-import express from "express";
+run().catch(err => console.log(err));
 
 const app = express();
 const port = 3000;
@@ -53,7 +56,13 @@ app.get( "/", ( req, res ) => {
     res.send('Hello World!')
 } );
 
+app.use(express.json());
+
 app.listen( port, () => {
-    // tslint:disable-next-line:no-console
     console.log( `server started at http://localhost:${ port }` );
-} );
+} ); 
+
+const mainRouter = require('./mainRoute.api.ts')
+app.use('/api', mainRouter)
+
+export default app;
