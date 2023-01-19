@@ -1,15 +1,21 @@
-require('dotenv').config()
-
-const mdb = process.env.MONGODB_CONNECT as string;
-
 import mongoose from 'mongoose';
 import express from "express";
+
+require('dotenv').config()
 
 interface IUser {
     first: String,
     last: String,
     age: Number
 }
+
+
+
+const mdb = process.env.MONGODB_CONNECT as string;
+
+
+
+
 
 const newSchema = new mongoose.Schema<IUser> ({
     first: String,
