@@ -8,6 +8,15 @@ async function getAllData(req: Request, res: Response) {
     }
 }
 
+async function Info(req: Request, res: Response) {
+    try {
+        console.log('This is an API connected to MongoDB!')
+    } catch (err:any) {
+        console.log('Error!')
+    }
+}
+
 export default {
-    getAllData
+    getAllData,
+    Info
 }
